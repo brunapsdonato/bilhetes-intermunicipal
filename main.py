@@ -1,13 +1,12 @@
-from MatrizEsparsa import MatrizEsparsa
 from Passageiro import Passageiro
 
 if __name__ == "__main__":
     opcao = None
     listaDeLinhas = []
-    linhaSelecionada = None
+    linhaSelecionada: MatrizEsparsa = None
     while opcao != '11':
         if linhaSelecionada is not None:
-            print('\nLINHA SELECIONADA: {}'.format(linhaSelecionada.getNome()))
+            print('\n===========LINHA SELECIONADA: {}==========='.format(linhaSelecionada.getNome()))
         else:
             print('NENHUMA LINHA SELECIONADA. Use a opção 2 para selecioanr uma linha')
         print('1 - Cadastrar linha\n2 - Selecionar linha existente')
@@ -41,39 +40,70 @@ if __name__ == "__main__":
                 except:
                     print('\nOPÇÃO INVALIDA - TENTE NOVAMENTE\n')
         elif opcao == '3' and linhaSelecionada is not None:
-            pass
+            try:
+                nome = input('Digite o nome do passageiro: ')
+                rg = input('Digite o rg do passageiro: ')
+                assento = linhaSelecionada.procurarAssentoDisponivel()
+                passageiro = Passageiro(nome, rg)
+                linhaSelecionada.adicionar(passageiro, assento)
+                print('PASSAGEIRO {} ADICIONADO COM SUCESSO'.format(passageiro))
+            except:
+                print('NENHUM ASSENTO DISPONIVEL')
+            
         elif opcao == '4' and linhaSelecionada is not None:
-            pass
+            try:
+                poltrona1 = int(input('Digite A POLTRONA a ser trocada: '))
+                poltrona2 = int(input('Digite A OUTRA POLTRONA a ser trocada: '))
+                linhaSelecionada.trocarPoltrona(poltrona1, poltrona2)
+                print('TROCADO COM SUCESSO')
+            except:
+                print('POLTRONA INVALIDA TENTE DE NOVO')
+
         elif opcao == '5' and linhaSelecionada is not None:
-            pass
+            try:
+                nome = input('Digite o nome do passageiro: ')
+                assento = linhaSelecionada.pesquisaPassageiro(nome)
+                linhaSelecionada.remover(assento)
+                print('PASSAGEIRO {} REMOVIDO DO ASSENTO {}'.format(nome, assento))
+            except:
+                print('PASSAGEIRO NÃO ENCONTRADO')
         elif opcao == '6' and linhaSelecionada is not None:
-            pass
+            try:
+                poltrona = int(input('Digite a poltrona: '))
+                passageiro = linhaSelecionada.pesquisar(poltrona)
+                if passageiro is not None:
+                    print('PASSAGEIRO {} ESTA NO ASSENTO {}'.format(passageiro, poltrona))
+                else:
+                    print('NENHUM PASSAGEIRO ESTA NO ASSENTO {}'.format(poltrona))
+
+            except:
+                print('POLTRONA INVALIDA TENTE NOVAMENTE')
         elif opcao == '7' and linhaSelecionada is not None:
-            pass
+            try:
+                nome = input('Digite o nome do passageiro: ')
+                assento = linhaSelecionada.pesquisaPassageiro(nome)
+                print('PASSAGEIRO {} ESTA NO ASSENTO {}'.format(nome, assento))
+            except:
+                print('PASSAGEIRO NÃO ENCONTRADO')
+
         elif opcao == '8' and linhaSelecionada is not None:
-            pass
+            with open('relacao_passageiros_{}.txt'.format(linhaSelecionada.getNome()), 'w') as relacaoDePassageiros:
+                if linhaSelecionada.estaVazia():
+                    relacaoDePassageiros.write('LINHA: {} ONIBUS VAZIO'.format(linhaSelecionada.getNome()))    
+                else:
+                    relacaoDePassageiros.write('LINHA: {}\n'.format(linhaSelecionada.getNome()))
+                    relacaoDePassageiros.write('Poltrona;passageiro;rg\n')
+                    for assento in range(1, linhaSelecionada.tamanho() + 1):
+                        passageiro = linhaSelecionada.pesquisar(assento)
+                        if passageiro is not None:
+                            relacaoDePassageiros.write('{};{};{}\n'.format(assento, passageiro.getNome(), passageiro.getRg()))
+            print('ARQUIVO {} GERADO COM SUCESSO'.format('relacao_passageiros_{}.txt'.format(linhaSelecionada.getNome())))
+        
         elif opcao == '9' and linhaSelecionada is not None:
-            pass
+            print("A LINHA SELECIONADA TEM {} ASSENTOS".format(linhaSelecionada.tamanho()))
         elif opcao == '10' and linhaSelecionada is not None:
-            pass
+            linhaSelecionada.mostrarAssentos()
         elif opcao == '11':
             pass
         else:
             print('\nOPÇÃO INVÁLIDA\n')
-
-    # me = MatrizEsparsa('JPA-CG',4,12)
-    # print("esta cheio: {}".format(me.estaCheio()))
-    # print("esta vazio: {}".format(me.estaVazia()))
-    # me.adicionar(Passageiro('LUCAS DINIZ', '123456'), 30)
-    # me.adicionar(Passageiro('BRUNA DINIZ', '789011'), 11)
-    # me.adicionar(Passageiro('PRISCILA DINIZ', '777777'), 32)
-    # me.adicionar(Passageiro('OUTRA PESSOA', '0000000'), 4)
-    # me.trocarPoltrona(30,1)
-    # me.trocarPoltrona(11,2)
-    # me.trocarPoltrona(32,3)
-    # me.remover(4)
-    # me.mostrarAssentos()
-    # print("pesquisa passageiro BRUNA. Esta no assento numero: {}".format(me.pesquisaPassageiro('')))
-    # print(me.pesquisar(3))
-    # print("esta cheio: {}".format(me.estaCheio()))
-    # print("esta vazio: {}".format(me.estaVazia()))
