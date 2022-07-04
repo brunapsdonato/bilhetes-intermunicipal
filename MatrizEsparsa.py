@@ -71,6 +71,8 @@ class MatrizEsparsa:
         raise Exception('Passageiro {} não encontrado'.format(nome))
 
     def trocarPoltrona(self, poltrona_atual:int, nova_poltrona:int)->bool:
+        '''Permite mover um passageiro pra outra poltrona caso ela esteja vazia
+           e exista um passageiro na poltrona original. Caso contrário lança exceção (erro)'''
         linhaAtual, colunaAtual = self.acharLinhaColunaPeloNumerDaPoltrona(poltrona_atual)
         linhaNova, colunaNova = self.acharLinhaColunaPeloNumerDaPoltrona(nova_poltrona)
 
