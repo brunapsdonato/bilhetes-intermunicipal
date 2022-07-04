@@ -1,6 +1,8 @@
 from MatrizEsparsa import MatrizEsparsa
 from Passageiro import Passageiro
 
+# GRUPO A: Bruna Priscila Sousa Donato; Gabriel Xavier Cabral; Mellanie Marques Fideles de Sousa
+
 if __name__ == "__main__":
     # OPÇÃO ESCOLHIDA PELO USUÁRIO NO MENU PRINCIPAL
     opcao = None
