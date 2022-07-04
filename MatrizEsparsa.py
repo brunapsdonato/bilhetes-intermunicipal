@@ -73,6 +73,13 @@ class MatrizEsparsa:
     def trocarPoltrona(self, poltrona_atual:int, nova_poltrona:int)->bool:
         linhaAtual, colunaAtual = self.acharLinhaColunaPeloNumerDaPoltrona(poltrona_atual)
         linhaNova, colunaNova = self.acharLinhaColunaPeloNumerDaPoltrona(nova_poltrona)
+
+        passageiroNaPoltronaAtual = self.__matriz[linhaAtual][colunaAtual]
+        poltronaDestino = self.__matriz[linhaNova][colunaNova]
+
+        if passageiroNaPoltronaAtual is None or poltronaDestino is not None:
+            raise Exception('Poltrona atual deve estar ocupada e a poltrona destino deve estar vazia')
+
         atual = self.__matriz[linhaAtual][colunaAtual]
         self.__matriz[linhaAtual][colunaAtual]= self.__matriz[linhaNova][colunaNova]
         self.__matriz[linhaNova][colunaNova] = atual
